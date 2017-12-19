@@ -32,8 +32,9 @@ make
 ```bash
 sudo apt-get update
 sudo apt-get dist-upgrade
-Occasionally if camera core software updates have been done then a sudo rpi-update may be used to benefit from these before they become available as standard.
 ```
+Occasionally if camera core software updates have been done then a sudo rpi-update may be used to benefit from these before they become available as standard.
+
 * Step 4:
 
 For Jessie Lite run sudo apt-get install git
