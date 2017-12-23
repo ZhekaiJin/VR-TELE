@@ -46,3 +46,4 @@ git clone https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git
 cd RPi_Cam_Web_Interface
 ./install.sh
 ```
+*Please refer to RPi_Cam_Web_Interface for further web dev [https://github.com/ZhekaiJin/RPi_Cam_Web_Interface]
