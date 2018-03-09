@@ -42,7 +42,7 @@ For Jessie Lite run sudo apt-get install git
 
 Clone the code from github and enable and run the install script with the following commands:
 ```bash
-git clone https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git
+git clone git clone https://github.com/zhekaijin/PI_Camera_Interface.git
 cd RPi_Cam_Web_Interface
 ./install.sh
 ```
