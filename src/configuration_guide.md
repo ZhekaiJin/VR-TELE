@@ -1,5 +1,5 @@
 # Configuration guide 
-***
+***Before Proceeding : Make sure you have leap Motion installed and able to run.*** [link](https://www.leapmotion.com/setup/desktop/)
 ## Discritption : 
    This is a toturial on how to install the publisher side on VR_TELE. 
 ## Dependency : 
