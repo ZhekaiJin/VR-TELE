@@ -18,7 +18,7 @@ Memebers: Zhekai Jin Simon Shao
 * Python
 * make
 * Leapmotion open-source Library 
-
+[+Installation guide](https://github.com/ZhekaiJin/VR-TELE/blob/master/src/README.md)
 
 ## Compilation and Usage ##
 ```bash
