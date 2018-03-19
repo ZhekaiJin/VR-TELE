@@ -46,4 +46,4 @@ git clone git clone https://github.com/zhekaijin/PI_Camera_Interface.git
 cd RPi_Cam_Web_Interface
 ./install.sh
 ```
-*Please refer to RPi_Cam_Web_Interface for further web dev [https://github.com/ZhekaiJin/RPi_Cam_Web_Interface]
+*Please refer to RPi_Cam_Web_Interface for further web dev [https://github.com/ZhekaiJin/PI_Camera_Interface]
