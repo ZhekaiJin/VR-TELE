@@ -1,16 +1,15 @@
 package read;
-import item.Messege;
 import item.Messege.MessegeBuilder;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.profesorfalken.jpowershell.PowerShell;
 import com.pubnub.api.*;
 
 
@@ -38,7 +37,8 @@ public class reader implements Runnable {
 	                                    + message.toString());
 	                        }
 
-	                        public void reconnectCallback(String channel, Object message) {
+	                        @Override
+							public void reconnectCallback(String channel, Object message) {
 	                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
 	                                    + " : " + message.getClass() + " : " + message.toString());
 	                        }
@@ -61,8 +61,7 @@ public class reader implements Runnable {
 	    }
 
 		private static JSONObject toJSONObject (String[] tokens) throws JSONException {
-			//JSONObject data = new JSONObject();
-			double timestamp = Double.parseDouble(tokens[0].split(":")[1]);
+			double timestamp = Double.parseDouble(tokens[0]);
 			double x = Double.parseDouble(tokens[1].split(":")[1]);
 			double y = Double.parseDouble(tokens[2].split(":")[1]);
 			double z = Double.parseDouble(tokens[3].split(":")[1]);
@@ -70,8 +69,6 @@ public class reader implements Runnable {
 			double qx = Double.parseDouble(tokens[5].split(":")[1]);
 			double qy = Double.parseDouble(tokens[6].split(":")[1]);
 			double qz = Double.parseDouble(tokens[7].split(":")[1]);
-			
-			//---------------------------------------------------
 			double[] euler = q_to_euler(qw,qx,qy,qz);
 			MessegeBuilder builder = new MessegeBuilder();
 			builder.setTimestamp(timestamp);
@@ -85,68 +82,34 @@ public class reader implements Runnable {
 			builder.setQy(qy);
 			if (euler != null) {
 				builder.setPitch(euler[0]);
-				builder.setRoll(euler[2]);
 				builder.setYaw(euler[1]);
+				builder.setRoll(euler[2]);
 			} 
-			//--------------------------------------------------
-//			double[] euler = q_to_euler(qw_d,qx_d,qy_d,qz_d);
-//			for (double angle :euler) {
-//				System.out.println(angle);
-//			}
-//			System.out.println("-------");
-//			try {
-////				data.put("qw",qw);
-////				data.put("qx",qx);
-////				data.put("qy",qy);
-////				data.put("qz",qz);
-//				data.put("pitch",euler[0]);
-//				data.put("yaw",euler[1]);
-//				data.put("roll",euler[2]);
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
 			return builder.build().toJSONObject();
 		}
-		public void captureFrame(JSONObject data) {  // handler processing [ 
-	        //if(!data.toString().equals("{}")) {
-	            pubnub.publish(CHANNEL, data, new Callback() {});
-	        //}
-
-	    }
 		
 		private static double[] q_to_euler(double w, double x, double y, double z) {
 			double yaw = Math.atan2(2.0*(y*z + w*x),w*w - x*x - y*y + z*z);
 			double pitch = Math.asin(-2.0*(x*z - w*y));
 			double roll = Math.atan2(2.0*(x*y + w*z), w*w + x*x - y*y - z*z);
-//		    double sqw = w*w;
-//		    double sqx = x*x;
-//		    double sqy = y*y;
-//		    double sqz = z*z;
-//		    double heading = Math.atan2(2.0 * (x*y + z*w),(sqx - sqy - sqz + sqw));
-//		    double bank = Math.atan2(2.0 * (y*z + x*w),(-sqx - sqy + sqz + sqw));
-//		    double attitude = Math.asin(-2.0 * (x*z - y*w));
 		    double[] euler= {yaw,pitch,roll};
 		    return euler;
 		}
 		
-		 public void run(){
+		 @Override
+		public void run(){
+			  	PowerShell.executeSingleCommand("cd \\Users\\special_lab\\Documents\\openvr\\openvr\\samples\\bin\\win32; .\\hellovr_opengl.exe");
 		        for(;;) {
 		            if (!running) break;
-		           // System.out.println("successfully subscribed");
             		try {
-            			   // System.out.println("procesing");
             	    		BufferedReader f = new BufferedReader(new FileReader(file));
             	    		String st;
             	    		while ((st = f.readLine()) != null) {
-            	    			
-                			    //System.out.println(st);
-            	    			String[] tokens = st.split(",");
-//            	    			for (String t : tokens) {
-//            	    				System.out.println(t);
-//            	    			}
-            	    			if (tokens.length > 1) { // && tokens[8].equals("device: HMD")) {//added this to distinguish HMD from other controllers
+               	    			String[] tokens = st.split(",");
+            	    			if (tokens.length > 1) { 
             	    				 JSONObject data= toJSONObject(tokens);
-            	    				 captureFrame(data);
+            	    				 System.out.println(data.toString(4)); // Print it with specified indentation
+            	    		         pubnub.publish(CHANNEL, data, new Callback() {});
             	    			}
             	    		}
             	    		f.close();
@@ -165,11 +128,9 @@ public class reader implements Runnable {
 
 
 		public void startTracking(){
-		        // Create a controller
 		        this.running = true;
 		        Thread t = new Thread(this);
 		        t.start();
-		        // Keep this process running until Enter is pressed
 		        System.out.println("Press Enter to quit...");
 		        try {
 		            System.in.read();
@@ -179,6 +140,9 @@ public class reader implements Runnable {
 		            e.printStackTrace();
 		        } catch (InterruptedException e){
 		            e.printStackTrace();
+		        } finally {
+		            PowerShell.executeSingleCommand("Stop-Process -Name \"hellovr_opengl\"");
+		            System.out.println("you are now fully quit");
 		        }
 		 }
 		 
