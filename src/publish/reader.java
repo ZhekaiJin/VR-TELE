@@ -1,3 +1,7 @@
+package read;
+import item.Messege;
+import item.Messege.MessegeBuilder;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,6 +15,7 @@ import com.pubnub.api.*;
 
 
 public class reader implements Runnable {
+	 private static int count = 0 ;
 	 public static final String CHANNEL = "scott";
 	 private File file = new File("C:\\Users\\special_lab\\Documents\\openvr\\openvr\\samples\\bin\\win32\\output.txt");
 
@@ -56,33 +61,51 @@ public class reader implements Runnable {
 	    }
 
 		private static JSONObject toJSONObject (String[] tokens) throws JSONException {
-			JSONObject data = new JSONObject();
-			String qw = (tokens[4].split(":")[1]);
-			String qx = (tokens[5].split(":")[1]);
-			String qy = (tokens[6].split(":")[1]);
-			String qz = (tokens[7].split(":")[1]);
-			double qw_d = Double.parseDouble(qw);
-			double qx_d = Double.parseDouble(qx);
-			double qy_d = Double.parseDouble(qy);
-			double qz_d = Double.parseDouble(qz);
+			//JSONObject data = new JSONObject();
+			double timestamp = Double.parseDouble(tokens[0].split(":")[1]);
+			double x = Double.parseDouble(tokens[1].split(":")[1]);
+			double y = Double.parseDouble(tokens[2].split(":")[1]);
+			double z = Double.parseDouble(tokens[3].split(":")[1]);
+			double qw = Double.parseDouble(tokens[4].split(":")[1]);
+			double qx = Double.parseDouble(tokens[5].split(":")[1]);
+			double qy = Double.parseDouble(tokens[6].split(":")[1]);
+			double qz = Double.parseDouble(tokens[7].split(":")[1]);
 			
-			double[] euler = q_to_euler(qw_d,qx_d,qy_d,qz_d);
-			for (double angle :euler) {
-				System.out.println(angle);
-			}
-			System.out.println("-------");
-			try {
-//				data.put("qw",qw);
-//				data.put("qx",qx);
-//				data.put("qy",qy);
-//				data.put("qz",qz);
-				data.put("pitch",euler[0]);
-				data.put("yaw",euler[1]);
-				data.put("roll",euler[2]);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return data;
+			//---------------------------------------------------
+			double[] euler = q_to_euler(qw,qx,qy,qz);
+			MessegeBuilder builder = new MessegeBuilder();
+			builder.setTimestamp(timestamp);
+			builder.setDeviceId(++count);  // for log purpose  
+			builder.setX(x);
+			builder.setY(y);
+			builder.setZ(z);
+			builder.setQx(qx); 
+			builder.setQw(qw);
+			builder.setQz(qz);
+			builder.setQy(qy);
+			if (euler != null) {
+				builder.setPitch(euler[0]);
+				builder.setRoll(euler[2]);
+				builder.setYaw(euler[1]);
+			} 
+			//--------------------------------------------------
+//			double[] euler = q_to_euler(qw_d,qx_d,qy_d,qz_d);
+//			for (double angle :euler) {
+//				System.out.println(angle);
+//			}
+//			System.out.println("-------");
+//			try {
+////				data.put("qw",qw);
+////				data.put("qx",qx);
+////				data.put("qy",qy);
+////				data.put("qz",qz);
+//				data.put("pitch",euler[0]);
+//				data.put("yaw",euler[1]);
+//				data.put("roll",euler[2]);
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
+			return builder.build().toJSONObject();
 		}
 		public void captureFrame(JSONObject data) {  // handler processing [ 
 	        //if(!data.toString().equals("{}")) {
@@ -121,11 +144,12 @@ public class reader implements Runnable {
 //            	    			for (String t : tokens) {
 //            	    				System.out.println(t);
 //            	    			}
-            	    			if (tokens.length > 1 && tokens[8].equals("device: HMD")) {//added this to distinguish HMD from other controllers
+            	    			if (tokens.length > 1) { // && tokens[8].equals("device: HMD")) {//added this to distinguish HMD from other controllers
             	    				 JSONObject data= toJSONObject(tokens);
             	    				 captureFrame(data);
             	    			}
-            	    		} 
+            	    		}
+            	    		f.close();
             	    	}catch (IOException e) {
             	    		e.printStackTrace();
             	    	} catch (JSONException e) {
