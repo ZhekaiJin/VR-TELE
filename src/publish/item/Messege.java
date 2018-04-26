@@ -1,10 +1,3 @@
-package item;
-
-import java.util.Set;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class Messege {
 	private double timestamp;
 	private double DeviceId;
@@ -19,7 +12,11 @@ public class Messege {
 	private double pitch;
 	private double yaw;
 	private double roll;
+	private String DeviceName;
 
+	public String getDeviceName() {
+		return DeviceName;
+	}
 	public double getPitch() {
 		return pitch;
 	}
@@ -74,6 +71,7 @@ public class Messege {
 		private double pitch;
 		private double yaw;
 		private double roll;
+		private String DeviceName;
 
 		public void setPitch(double pitch) {
 			this.pitch = pitch;
@@ -114,6 +112,10 @@ public class Messege {
 		public void setQz(double qz) {
 			this.qz = qz;
 		} 
+		
+		public void setDeviceName(String deviceName) {
+			DeviceName = deviceName;
+		}
 		public Messege build() {
 			return new Messege(this);
 		}
@@ -133,6 +135,7 @@ public class Messege {
 		this.pitch = builder.pitch;
 		this.yaw = builder.yaw;
 		this.roll = builder.roll;
+		this.DeviceName = builder.DeviceName;
 	}
 	
 	public JSONObject toJSONObject() {
@@ -151,6 +154,7 @@ public class Messege {
 			obj.put("pitch",pitch);
 			obj.put("yaw",yaw);
 			obj.put("roll",roll);
+			obj.put("DeviceName", DeviceName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} 
