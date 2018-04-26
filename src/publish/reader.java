@@ -69,6 +69,7 @@ public class reader implements Runnable {
 			double qx = Double.parseDouble(tokens[5].split(":")[1]);
 			double qy = Double.parseDouble(tokens[6].split(":")[1]);
 			double qz = Double.parseDouble(tokens[7].split(":")[1]);
+			String deviceName = tokens[8].split(":")[1];
 			double[] euler = q_to_euler(qw,qx,qy,qz);
 			MessegeBuilder builder = new MessegeBuilder();
 			builder.setTimestamp(timestamp);
@@ -80,6 +81,7 @@ public class reader implements Runnable {
 			builder.setQw(qw);
 			builder.setQz(qz);
 			builder.setQy(qy);
+			builder.setDeviceName(deviceName);
 			if (euler != null) {
 				builder.setPitch(euler[0]);
 				builder.setYaw(euler[1]);
@@ -113,11 +115,11 @@ public class reader implements Runnable {
             	    			}
             	    		}
             	    		f.close();
-            	    	}catch (IOException e) {
-            	    		e.printStackTrace();
-            	    	} catch (JSONException e) {
-							e.printStackTrace();
-						}
+        	    	} catch (IOException e) {
+        	    		e.printStackTrace();
+        	    	} catch (JSONException e) {
+						e.printStackTrace();
+					}
 		            try {
 		                Thread.sleep(50);
 		            } catch (InterruptedException e) {
@@ -133,12 +135,13 @@ public class reader implements Runnable {
 		        t.start();
 		        System.out.println("Press Enter to quit...");
 		        try {
-		            System.in.read();
+		            System.in.read();//async
 		            this.running=false;
 		            t.join();
 		        } catch (IOException e) {
 		            e.printStackTrace();
 		        } catch (InterruptedException e){
+	                System.out.println("you hit enter");
 		            e.printStackTrace();
 		        } finally {
 		            PowerShell.executeSingleCommand("Stop-Process -Name \"hellovr_opengl\"");
