@@ -1,12 +1,10 @@
 # VR-TELE
-=========================================
-https://docs.google.com/document/d/16Llf9d7UICQfcfpNQS2lqCRWslY9GL7KxqAbc5ZgvGo/edit?usp=sharing
 
 ## Description ##
-
-Independent Project: Realization of telepresence \
-Instructor: Prof. Neveen Shlayan\
-Memebers: Zhekai Jin Simon Shao
+[Project Link](https://engfac.cooper.edu/nshlayan/692) 
+* Independent Project: Realization of 3D Telepresence \
+* Instructor: Prof. Neveen Shlayan\
+* Memebers: Zhekai Jin & Simon Shao
 
 ## Functionality ##
 * Online surveillance 
