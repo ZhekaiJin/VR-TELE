@@ -1,11 +1,12 @@
-# VR-TELE
+# VR-TELE #
 
-## Description ##
-[Project Link](https://engfac.cooper.edu/nshlayan/692) 
-* Independent Project: Realization of 3D Telepresence \
-* Instructor: Prof. Neveen Shlayan\
+* A realization of 3D Telepresence 
+* Advisor: Prof. Neveen Shlayan
 * Memebers: Zhekai Jin & Simon Shao
 
+## Description ##
+![](doc/vr.jpg)
+*<br/>[Project Link](https://engfac.cooper.edu/nshlayan/692)*
 ## Functionality ##
 * Online surveillance 
 * Motion detection and 
@@ -15,18 +16,15 @@
 * JVM
 * Python
 * make
-* Leapmotion open-source Library 
-[+Installation guide](https://github.com/ZhekaiJin/VR-TELE/blob/master/src/README.md)
+* Leapmotion open-source Library
 
 ## Compilation and Usage ##
-```bash
-make
-[to be update]
-```
+* [Installation guide](src/README.md)
+
 
 ## Compilation and Usage on Pi ##
 * Step 1: Install Raspbian on your RPi
-* Step 2: Attach camera to RPi and enable camera support (http://www.raspberrypi.org/camera)
+* Step 2: Attach camera to RPi and enable camera support, [further info] (http://www.raspberrypi.org/camera).
 * Step 3: Update your RPi with the following commands:
 ```bash
 sudo apt-get update
@@ -36,12 +34,17 @@ Occasionally if camera core software updates have been done then a sudo rpi-upda
 
 * Step 4:
 
-For Jessie Lite run sudo apt-get install git
+For Jessie Lite run 
+
+```bash
+sudo apt-get install git
+```
 
 Clone the code from github and enable and run the install script with the following commands:
+
 ```bash
 git clone git clone https://github.com/zhekaijin/PI_Camera_Interface.git
 cd RPi_Cam_Web_Interface
 ./install.sh
 ```
-*Please refer to RPi_Cam_Web_Interface for further web dev [https://github.com/ZhekaiJin/PI_Camera_Interface]
+*Please refer to [RPi_Cam_Web_Interface](https://github.com/ZhekaiJin/PI_Camera_Interface) module for further web dev 
