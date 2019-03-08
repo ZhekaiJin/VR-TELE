@@ -1,8 +1,5 @@
 # VR-TELE #
-
-* A realization of 3D Telepresence 
-* Advisor: Prof. Neveen Shlayan
-* Memebers: Zhekai Jin & Simon Shao
+A realization of 3D Telepresence 
 
 ## Description ##
 ![](doc/vr.jpg)
@@ -48,3 +45,15 @@ cd RPi_Cam_Web_Interface
 ./install.sh
 ```
 *Please refer to [RPi_Cam_Web_Interface](https://github.com/ZhekaiJin/PI_Camera_Interface) module for further web dev 
+
+## Acknowledgments
+* Thanks for the mentorship and support from our principal investigator **Dr. Neveen Shlayan**.
+
+## Versioning
+This work use [SemVer](http://semver.org/) for versioning. This repo now contains version 1.0.
+
+## Authors
+**[Zhekai Jin](https://zhekaijin.github.io/)**, **Simon Shao**.
+
+## Affiliated Lab
+[Sustainable, Mobile, & Agile Connected Communities Lab](https://engfac.cooper.edu/nshlayan/689)
